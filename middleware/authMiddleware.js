@@ -8,9 +8,12 @@ const authMiddleware = async (req, res, next) => {
             if (token) {
                 const decoded = jwt.verify(token, process.env.JWT_SECRET);
                 const user = await User.findById(decoded?.id);
-                req.user = user;
-                next()
-                return
+                if(req.cookies.token === token ){ // or store inside database
+                    req.user = user;
+                    next()
+                    return;
+                }
+                 return res.status(401).json({ message: "the token is in valid" })
             }
         }
         return res.status(401).json({ message: "unauthenticated" })

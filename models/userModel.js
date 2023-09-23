@@ -28,8 +28,8 @@ var userSchema = new mongoose.Schema({
         default: "user",
     },
     isBlocked: {
-       type:Boolean,
-       default: false
+        type: Boolean,
+        default: false
     },
     cart: {
         type: Array,
@@ -40,8 +40,9 @@ var userSchema = new mongoose.Schema({
 
 },
     {
-        timeseries: true
+        timestamps: true
     }
+
 );
 userSchema.pre("save", async function (next) {
     const salt = await bcrypt.genSaltSync(10);
